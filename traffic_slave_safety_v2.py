@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 """
 traffic_slave.py - Board B Slave Controller
@@ -97,7 +98,7 @@ COCO_CLASSES = [
 LIGHT_STATES = {
     "GREEN_A":  (0, 255, 0),    # Road A green
     "YELLOW_A": (0, 255, 255),  # Road A yellow
-    "ALL_RED_A": (0, 0, 255),   # All red (A→B)
+    "ALL_RED_A": (0, 0, 255),   #  (A→B)
     "GREEN_B":  (0, 255, 0),    # Road B green
     "YELLOW_B": (0, 255, 255),  # Road B yellow
     "ALL_RED_B": (0, 0, 255),   # All red (B→A)
@@ -572,10 +573,12 @@ _FB_CYCLE = [
     # (state_name,  duration_s,  b_relay)
     ("GREEN_A",     30.0,        "RED"),
     ("YELLOW_A",     3.0,        "RED"),
-    ("ALL_RED_A",    2.0,        "RED"),
+    ("ALL_RED_A",    15.0,        "RED"),
+    ("RED_YELLOW_B", 2.0,        "RED_YELLOW"),
     ("GREEN_B",     30.0,        "GREEN"),
     ("YELLOW_B",     3.0,        "YELLOW"),
-    ("ALL_RED_B",    2.0,        "RED"),
+    ("ALL_RED_B",    15.0,        "RED"),
+    ("RED_YELLOW_A", 2.0,        "RED"),
 ]
 
 
@@ -744,6 +747,9 @@ def main():
                 elif b_relay == "YELLOW":
                     light_color = (0, 255, 255); is_green = False; is_yellow = True
                     relay.set_light("YELLOW")
+                elif b_relay == "RED_YELLOW":
+                    light_color = (0, 165, 255); is_green = False; is_yellow = True
+                    relay.set_light("RED_YELLOW")
                 else:
                     light_color = (0, 0, 255); is_green = False; is_yellow = False
                     relay.set_light("RED")
@@ -754,6 +760,8 @@ def main():
                     relay.set_light("GREEN")
                 elif light_state == "YELLOW_B":
                     relay.set_light("YELLOW")
+                elif light_state == "RED_YELLOW_B":
+                    relay.set_light("RED_YELLOW")
                 else:
                     relay.set_light("RED")
 
